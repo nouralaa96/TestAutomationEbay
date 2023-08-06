@@ -4,20 +4,18 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.EbayMainPage;
 import pages.ResultsPage;
+import utilities.ExtentReport;
 import utilities.ReadJsonData;
 
 import java.io.IOException;
 
-public class EbaySearchTest {
+public class EbaySearchTest extends ExtentReport  {
     WebDriver driver;
     EbayMainPage ebayMainPage;
     ResultsPage resultsPage;
-
 
     @BeforeTest
     public void setup() {
@@ -38,6 +36,7 @@ public class EbaySearchTest {
 
         ebayMainPage.navigateToEbay(ReadJsonData.getTestData("url"));
         Assert.assertTrue(ebayMainPage.isMainPageDisplayed());
+
     }
 
     @Test
@@ -46,6 +45,7 @@ public class EbaySearchTest {
         ebayMainPage.searchForItem(ReadJsonData.getTestData("Search Item"));
         Assert.assertTrue(resultsPage.areSearchResultsDisplayed(ReadJsonData.getTestData("Search Item")));
         System.out.println(resultsPage.getNumberOfResults());
+        test.info("Number of search results: " + resultsPage.getNumberOfResults());
         resultsPage.applyTransmissionFilter(ReadJsonData.getTestData("Transmission Type"));
     }
 }
